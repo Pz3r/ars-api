@@ -26,12 +26,13 @@ app.post('/predecir', function(req, res) {
     }
 
     if(authClient.createScopedRequired && authClient.createScopedRequired()) {
-      var scopes = ['https://www.googleapis.com/auth/prediction'];
+      var scopes = ['https://www.googleapis.com/auth/cloud-platform', 'https://www.googleapis.com/auth/prediction'];
       authClient = authClient.createScoped(scopes);
+      console.log('Scopes added');
     }
 
     var request = {
-      project: '855466288430',
+      project: 'ars-api',
       id: 'ars-1-model-01022016',
       resource: {
         input: {

@@ -46,8 +46,6 @@ app.post('/predecir', function(req, res) {
   multiplyString(req.body.pimienta, 'pimienta') +
   multiplyString(req.body.ambar_gris, 'ambar_gris');
 
-  console.log(estadoAnimo.trim());
-
   google.auth.getApplicationDefault(function(err, authClient) {
     if(err) {
       console.log('Authentication failed because of ', err);

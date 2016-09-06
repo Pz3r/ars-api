@@ -90,7 +90,7 @@ app.listen(8080, argv.fe_ip, function() {
 });
 
 function multiplyString(times, str) {
-  if(times) {
+  if(times && Number.isInteger(times)) {
     return (new Array(parseInt(times) + 1)).join(str + ' ');
   } else {
     return '';

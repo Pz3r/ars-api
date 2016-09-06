@@ -76,9 +76,11 @@ app.post('/predecir', function(req, res) {
 
     prediction.trainedmodels.predict(request, function(err, result) {
       if(err) {
-        res.render('prediction', {result: err});
+        //res.render('prediction', {result: err});
+        res.send(err);
       } else {
-        res.render('prediction', {result: result});
+        //res.render('prediction', {result: result});
+        res.json(result);
       }
     });
 

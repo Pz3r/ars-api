@@ -26,15 +26,20 @@ app.post('/predecir', function(req, res) {
     }
 
     if(authClient.createScopedRequired && authClient.createScopedRequired()) {
-      var scopes = ['https://www.googleapis.com/auth/cloud-platform'];
+      var scopes = ['https://www.googleapis.com/auth/prediction'];
       authClient = authClient.createScoped(scopes);
     }
 
     var request = {
-      project: 'ars-api',
+      project: '855466288430',
       id: 'ars-1-model-01022016',
       resource: {
-
+        input: {
+          csvInstance: [
+              'animado animado animado feliz feliz feliz triste cansado cansado cansado afectuoso afectuoso afectuoso afectuoso contento contento contento pesimista pesimista agitado agitado adormecido adormecido gruñon gruñon vivaracho vivaracho nervioso nervioso tranquilo tranquilo tranquilo tranquilo cariñoso cariñoso cariñoso harto energetico energetico energetico',
+              'limon limon limon limon limon limon limon limon limon lemongrass lemongrass lemongrass lemongrass lemongrass lemongrass lemongrass lemongrass lemongrass pachuli pachuli pachuli romero romero romero romero romero romero romero romero oregano oregano oregano violeta violeta violeta violeta almizcle almizcle almizcle almizcle almizcle almizcle almizcle gengibre gengibre gengibre gengibre gengibre gengibre gengibre gengibre pimienta pimienta pimienta pimienta pimienta pimienta pimienta ambar_gris ambar_gris ambar_gris ambar_gris ambar_gris ambar_gris'
+          ]
+        }
       },
       auth: authClient
     };

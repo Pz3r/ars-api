@@ -35,6 +35,17 @@ app.post('/predecir', function(req, res) {
   multiplyString(req.body.harto, 'harto') +
   multiplyString(req.body.energetico, 'energetico');
 
+  var olores = multiplyString(req.body.limon, 'limon') +
+  multiplyString(req.body.lemongrass, 'lemongrass') +
+  multiplyString(req.body.pachuli, 'pachuli') +
+  multiplyString(req.body.romero, 'romero') +
+  multiplyString(req.body.oregano, 'oregano') +
+  multiplyString(req.body.violeta, 'violeta') +
+  multiplyString(req.body.almizcle, 'almizcle') +
+  multiplyString(req.body.gengibre, 'gengibre') +
+  multiplyString(req.body.pimienta, 'pimienta') +
+  multiplyString(req.body.ambar_gris, 'ambar_gris');
+
   console.log(estadoAnimo.trim());
 
   google.auth.getApplicationDefault(function(err, authClient) {
@@ -56,7 +67,7 @@ app.post('/predecir', function(req, res) {
         input: {
           csvInstance: [
               estadoAnimo.trim(),
-              'limon limon limon limon limon limon limon limon limon lemongrass lemongrass lemongrass lemongrass lemongrass lemongrass lemongrass lemongrass lemongrass pachuli pachuli pachuli romero romero romero romero romero romero romero romero oregano oregano oregano violeta violeta violeta violeta almizcle almizcle almizcle almizcle almizcle almizcle almizcle gengibre gengibre gengibre gengibre gengibre gengibre gengibre gengibre pimienta pimienta pimienta pimienta pimienta pimienta pimienta ambar_gris ambar_gris ambar_gris ambar_gris ambar_gris ambar_gris'
+              olores.trim()
           ]
         }
       },

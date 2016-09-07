@@ -3,6 +3,10 @@ var app = express();
 
 var bodyParser = require('body-parser');
 var argv = require('optimist').argv;
+
+var url = require('url');
+var querystring = require('querystring');
+
 var google = require('googleapis');
 var prediction = google.prediction('v1.6');
 
@@ -15,9 +19,77 @@ app.get('/', function(req, res) {
   res.render('index');
 });
 
-app.post('/predecir', function(req, res) {
+app.get('/predecir', function(req, res) {
+  var q = url.parse(req.url).query;
 
-  // TODO parse posted values and create input strings for prediction
+  var estadoAnimo = multiplyString(q.animado, 'animado') +
+  multiplyString(q.feliz, 'feliz') +
+  multiplyString(q.triste, 'triste') +
+  multiplyString(q.cansado, 'cansado') +
+  multiplyString(q.afectuoso, 'afectuoso') +
+  multiplyString(q.contento, 'contento') +
+  multiplyString(q.pesimista, 'pesimista') +
+  multiplyString(q.agitado, 'agitado') +
+  multiplyString(q.adormecido, 'adormecido') +
+  multiplyString(q.gruñon, 'gruñon')
+  multiplyString(q.vivaracho, 'vivaracho') +
+  multiplyString(q.nervioso, 'nervioso') +
+  multiplyString(q.tranquilo, 'tranquilo') +
+  multiplyString(q.cariñoso, 'cariñoso') +
+  multiplyString(q.harto, 'harto') +
+  multiplyString(q.energetico, 'energetico');
+
+  var olores = multiplyString(q.limon, 'limon') +
+  multiplyString(q.lemongrass, 'lemongrass') +
+  multiplyString(q.pachuli, 'pachuli') +
+  multiplyString(q.romero, 'romero') +
+  multiplyString(q.oregano, 'oregano') +
+  multiplyString(q.violeta, 'violeta') +
+  multiplyString(q.almizcle, 'almizcle') +
+  multiplyString(q.gengibre, 'gengibre') +
+  multiplyString(q.pimienta, 'pimienta') +
+  multiplyString(q.ambar_gris, 'ambar_gris');
+
+  google.auth.getApplicationDefault(function(err, authClient) {
+    if(err) {
+      console.log('Authentication failed because of ', err);
+      return;
+    }
+
+    if(authClient.createScopedRequired && authClient.createScopedRequired()) {
+      var scopes = ['https://www.googleapis.com/auth/cloud-platform', 'https://www.googleapis.com/auth/prediction'];
+      authClient = authClient.createScoped(scopes);
+      console.log('Scopes added');
+    }
+
+    var request = {
+      project: '855466288430',
+      id: 'ars-1-model-01022016',
+      resource: {
+        input: {
+          csvInstance: [
+              estadoAnimo.trim(),
+              olores.trim()
+          ]
+        }
+      },
+      auth: authClient
+    };
+
+    prediction.trainedmodels.predict(request, function(err, result) {
+      if(err) {
+        //res.render('prediction', {result: err});
+        res.send(err);
+      } else {
+        //res.render('prediction', {result: result});
+        res.json(result);
+      }
+    });
+
+  });
+});
+
+app.post('/predecir', function(req, res) {
   var estadoAnimo = multiplyString(req.body.animado, 'animado') +
   multiplyString(req.body.feliz, 'feliz') +
   multiplyString(req.body.triste, 'triste') +
